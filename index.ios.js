@@ -10,6 +10,7 @@ import {
   StyleSheet,
   Image,
   Text,
+  TextInput,
   View
 } from 'react-native';
 
@@ -129,6 +130,36 @@ class FlexDimensionsBasics extends React.Component{
   }
 }
 
+class PizzaTranslator extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      text : ''
+    }
+
+    this.onChangeText = this._onChangeText.bind(this);
+  }
+
+  _onChangeText(text){
+    this.setState({text});
+  }
+
+  render(){
+    return (
+      <View style={{padding:10}}>
+        <TextInput
+          style={{height : 40}}
+          placeholder='Type here to translate !'
+          onChangeText={this.onChangeText}
+        />
+        <Text style={{padding:10, fontSize:42}}>
+          {this.state.text.split(' ').map(word => word && '🍕').join(' ')}
+        </Text>
+      </View>
+    );
+  }
+}
+
 const styles = StyleSheet.create({
   bigBlue: {
     color : 'blue',
@@ -156,4 +187,4 @@ const styles = StyleSheet.create({
   },
 });
 
-AppRegistry.registerComponent('AwesomeProject', () => FlexDimensionsBasics);
+AppRegistry.registerComponent('AwesomeProject', () => PizzaTranslator);
