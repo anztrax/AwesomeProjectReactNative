@@ -12,6 +12,7 @@ import {
   Text,
   TextInput,
   ScrollView,
+  ListView,
   View
 } from 'react-native';
 
@@ -183,6 +184,32 @@ class TryScrollView extends React.Component{
   }
 }
 
+/**
+ * NOTE : One of the most common uses for a ListView is displaying data that you fetch from a server
+ */
+class ListViewBasics extends React.Component{
+  constructor(props){
+    super(props);
+
+    const ds = new ListView.DataSource({ rowHasChanged : (r1,r2) => r1 != r2});
+    this.state = {
+      dataSource : ds.cloneWithRows([
+        'John', 'Joel', 'James', 'Jimmy', 'Jackson', 'Jillian', 'Julie', 'Devin', 'Andrew','Octocat'
+      ])
+    }
+  }
+  render(){
+    return (
+      <View style={{flex:1, paddingTop:22}}>
+        <ListView
+          dataSource={this.state.dataSource}
+          renderRow={(rowData) => <Text>{rowData}</Text>}
+        />
+      </View>
+    )
+  }
+}
+
 const styles = StyleSheet.create({
   bigBlue: {
     color : 'blue',
@@ -210,4 +237,4 @@ const styles = StyleSheet.create({
   },
 });
 
-AppRegistry.registerComponent('AwesomeProject', () => TryScrollView);
+AppRegistry.registerComponent('AwesomeProject', () => ListViewBasics);
