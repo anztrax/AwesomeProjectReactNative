@@ -11,6 +11,7 @@ import {
   Image,
   Text,
   TextInput,
+  ScrollView,
   View
 } from 'react-native';
 
@@ -160,6 +161,28 @@ class PizzaTranslator extends React.Component{
   }
 }
 
+class TryScrollView extends React.Component{
+
+  generateText(){
+    const elements = [];
+    for(let i =0; i< 100;i++){
+      elements.push(
+        <Text key={i} style={{fontSize : 20}}>Megazord font {i}</Text>
+      );
+    }
+    return elements;
+  }
+
+  render(){
+    const generatedText = this.generateText();
+    return (
+      <ScrollView>
+        {generatedText}
+      </ScrollView>
+    );
+  }
+}
+
 const styles = StyleSheet.create({
   bigBlue: {
     color : 'blue',
@@ -187,4 +210,4 @@ const styles = StyleSheet.create({
   },
 });
 
-AppRegistry.registerComponent('AwesomeProject', () => PizzaTranslator);
+AppRegistry.registerComponent('AwesomeProject', () => TryScrollView);
