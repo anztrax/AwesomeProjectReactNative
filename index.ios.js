@@ -1,0 +1,159 @@
+/**
+ * Sample React Native App
+ * https://github.com/facebook/react-native
+ * @flow
+ */
+
+import React, { Component } from 'react';
+import {
+  AppRegistry,
+  StyleSheet,
+  Image,
+  Text,
+  View
+} from 'react-native';
+
+class Greeting extends React.Component{
+  render(){
+    return (
+      <Text>hello { this.props.name } !</Text>
+    )
+  }
+}
+
+class Blink extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      showText : true
+    }
+
+    setInterval(()=> {
+      this.setState({showText: !this.state.showText});
+    },1000);
+  }
+
+  render(){
+    const {text, style} = this.props;
+    let display = this.state.showText ? text : ' ';
+    return (
+      <Text style={style}>{display}</Text>
+    );
+  }
+}
+
+class AwesomeProject extends Component {
+  render() {
+    const pic ={
+      url : 'https://upload.wikimedia.org/wikipedia/commons/d/de/Bananavarieties.jpg'
+    };
+
+    /**
+     * good note :
+     * All dimensions in React Native are unitless, and represent density-independent pixels.
+     */
+    return (
+      <View style={{alignItems: 'center'}}>
+        <View style={{width : 50, height : 50, backgroundColor: 'powderblue' }} />
+        <View style={{width : 100, height : 100, backgroundColor: 'skyblue' }} />
+        <View style={{width : 150, height : 150, backgroundColor: 'steelblue' }} />
+        <Text>Hello World !</Text>
+        <Greeting name='sora' />
+        <Greeting name='goovy' />
+        <Blink text='i love to blink text, just wow !' />
+        <Blink text='this text will be blink in every 1000mSec yo !' />
+        <Blink style={styles.red} text='Red neon light' />
+        <Blink style={[ styles.red, styles.bigBlue ]} text='Big Blue neon light' />
+        <Greeting name='donald' />
+        <Image source={pic} style={{width: 193, height: 110}}/>
+      </View>
+    );
+  }
+}
+
+class FlexDimensionsBasics extends React.Component{
+  render(){
+    // Try removing the `flex: 1` on the parent View.
+    // The parent will not have dimensions, so the children can't expand.
+    // What if you add `height: 300` instead of `flex: 1`?
+    return (
+      <View style={{flex : 1}}>
+        <View style={{flex : 1}}>
+          <View style={{flex : 1, backgroundColor : 'powderblue' }}/>
+          <View style={{flex : 2, backgroundColor : 'skyblue' }}/>
+          <View style={{flex : 3, backgroundColor : 'steelblue' }}/>
+        </View>
+        {/* flex direction : row / column (default) */}
+        <View style={{flex : 1, flexDirection:'row'}}>
+          <View style={{width: 50, height: 50, backgroundColor: 'powderblue'}} />
+          <View style={{width: 50, height: 50, backgroundColor: 'skyblue'}} />
+          <View style={{width: 50, height: 50, backgroundColor: 'steelblue'}} />
+        </View>
+        {/* justify content :
+              Adding justifyContent to a component's style determines the
+              distribution of children along the primary axis
+
+              Should children be distributed at the start, the center, the end, or spaced evenly?
+              Available options are :
+                - flex-start
+                - center
+                - flex-end
+                - space-around
+                - space-between.
+          */}
+        <View style={{flex : 1, flexDirection:'column', justifyContent:'space-between'}}>
+          <View style={{width: 50, height: 50, backgroundColor: 'powderblue'}} />
+          <View style={{width: 50, height: 50, backgroundColor: 'skyblue'}} />
+          <View style={{width: 50, height: 50, backgroundColor: 'steelblue'}} />
+        </View>
+
+        {/* Adding alignItems :
+              to a component's style determines the alignment of children
+              along the secondary axis (if the primary axis is row, then the secondary is column, and vice versa).
+
+              Should children be aligned at the start, the center, the end, or stretched to fill?
+              Available options are :
+                - flex-start
+                - center
+                - flex-end
+                - stretch
+         */}
+        <View style={{flex : 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'stretch'}}>
+          {/* this will stretch because work because not have a fixed dimension along the secondary axis. */}
+          <View style={{height: 50, backgroundColor: 'powderblue'}} />
+          <View style={{width: 50, height: 50, backgroundColor: 'skyblue'}} />
+          <View style={{width: 50, height: 50, backgroundColor: 'steelblue'}} />
+        </View>
+      </View>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  bigBlue: {
+    color : 'blue',
+    fontWeight : 'bold',
+    fontSize:  30
+  },
+  red : {
+    color : 'red'
+  },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF',
+  },
+  welcome: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10,
+  },
+  instructions: {
+    textAlign: 'center',
+    color: '#333333',
+    marginBottom: 5,
+  },
+});
+
+AppRegistry.registerComponent('AwesomeProject', () => FlexDimensionsBasics);
