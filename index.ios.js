@@ -13,8 +13,11 @@ import {
   TextInput,
   ScrollView,
   ListView,
+  Navigator,
   View
 } from 'react-native';
+
+import MyScene from './app/page/MyScene';
 
 class Greeting extends React.Component{
   render(){
@@ -184,6 +187,17 @@ class TryScrollView extends React.Component{
   }
 }
 
+function getMoviesFromApiSync(){
+  return fetch('https://facebook.github.io/react-native/movies.json')
+    .then(response => response.json())
+    .then(responseJSON => {
+      return responseJSON.movies
+    })
+    .catch(err => {
+      console.error(err);
+    })
+}
+
 /**
  * NOTE : One of the most common uses for a ListView is displaying data that you fetch from a server
  */
@@ -206,6 +220,37 @@ class ListViewBasics extends React.Component{
           renderRow={(rowData) => <Text>{rowData}</Text>}
         />
       </View>
+    )
+  }
+}
+
+class YoDawgApp extends React.Component{
+  render(){
+    return (
+      <Navigator
+        initialRoute={{title : 'My Initial Scene', index :0}}
+        renderScene={(route, navigator)=> (
+          <MyScene
+            title={route.title}
+
+            // Function to call when a new scene should be displayed
+            onForward={()=> {
+              const nextIndex = route.index + 1;
+              navigator.push({
+                title : 'Scene ' + nextIndex,
+                index : nextIndex
+              })
+            }}
+
+            // Function to call to go back to the previous scene
+            onBack={()=>{
+              if(route.index > 0){
+                navigator.pop();
+              }
+            }}
+          />
+        )}
+      />
     )
   }
 }
@@ -237,4 +282,4 @@ const styles = StyleSheet.create({
   },
 });
 
-AppRegistry.registerComponent('AwesomeProject', () => ListViewBasics);
+AppRegistry.registerComponent('AwesomeProject', () => YoDawgApp);
